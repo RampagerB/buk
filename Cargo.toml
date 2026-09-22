@@ -1,0 +1,13 @@
+[package]
+name = "buk"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+
+[dependencies]
+chrono = "0.4.45"
+structopt = "0.3.26"
+
+[[bench]]
+name = "backup"
+harness = false
