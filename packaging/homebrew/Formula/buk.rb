@@ -11,7 +11,7 @@ class Buk < Formula
   desc "Back up files and directories to a dated, mirrored backup root"
   homepage "https://github.com/RampagerB/buk"
   url "https://github.com/RampagerB/buk/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "dd526da332b69b64b033ceba93bd87a3a95284b7da0b7c903391d1b35d57fcbb"
+  sha256 "6e8d0240790ec7981fc566a2cfa8d19b862ddb6c97522059bd89f098f12d053b"
   license "Apache-2.0"
   head "https://github.com/RampagerB/buk.git", branch: "main"
 
