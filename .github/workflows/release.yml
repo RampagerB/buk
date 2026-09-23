@@ -211,6 +211,9 @@ jobs:
           tag="$GITHUB_REF_NAME"
           if gh release view "$tag" > /dev/null 2>&1; then
             gh release upload "$tag" dist/* --clobber
+            # A release whose tag was deleted and re-pushed exists as a draft;
+            # re-tagging must not leave it hidden.
+            gh release edit "$tag" --draft=false
           else
             gh release create "$tag" dist/* \
               --verify-tag \
