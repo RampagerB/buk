@@ -1,0 +1,29 @@
+# Maintainer: Ray Bao <raybao27@gmail.com>
+#
+# Binary package built from the prebuilt GNU-target tarballs on GitHub
+# Releases. Update pkgver + the two sha256sums per release (both are listed in
+# the release's SHA256SUMS asset), then regenerate .SRCINFO:
+#
+#   makepkg --printsrcinfo > .SRCINFO
+#
+pkgname=buk-bin
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Back up files and directories to a dated, mirrored backup root"
+arch=('x86_64' 'aarch64')
+url="https://github.com/RampagerB/buk"
+license=('Apache-2.0')
+depends=('glibc')
+provides=('buk')
+conflicts=('buk')
+source_x86_64=("$url/releases/download/v$pkgver/buk-$pkgver-x86_64-unknown-linux-gnu.tar.gz")
+sha256sums_x86_64=('cdabf56a751f821d1b84520dbff10898b073de464210941f4c957d466da8d1ba')
+source_aarch64=("$url/releases/download/v$pkgver/buk-$pkgver-aarch64-unknown-linux-gnu.tar.gz")
+sha256sums_aarch64=('4a27b0fc2bfe4687403221fec3b3f34be7218806ca1c836613595bbaf1dc5d9c')
+
+package() {
+  cd "buk-$pkgver-${CARCH}-unknown-linux-gnu"
+  install -Dm755 buk "$pkgdir/usr/bin/buk"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

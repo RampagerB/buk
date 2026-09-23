@@ -1,0 +1,38 @@
+# nfpm config for buk — builds buk_<version>_amd64.deb and
+# buk-<version>-1.x86_64.rpm from the release's fully static musl binary.
+#
+# Used by .github/workflows/release.yml (packages job). BUK_VERSION is injected
+# from the git tag — nfpm expands environment variables in any field.
+#
+# Local usage (from the repo root, after staging the files):
+#   mkdir -p staging && cp <binary> staging/buk && cp LICENSE README.md staging/
+#   BUK_VERSION=0.1.0 nfpm package -f packaging/nfpm.yaml -p deb -t buk_0.1.0_amd64.deb
+#   BUK_VERSION=0.1.0 nfpm package -f packaging/nfpm.yaml -p rpm -t buk-0.1.0-1.x86_64.rpm
+#
+# Note: `src` paths are resolved relative to the current working directory,
+# not to this file — always run nfpm from the repo root.
+name: buk
+arch: amd64 # nfpm maps amd64 -> x86_64 for rpm automatically
+platform: linux
+version: ${BUK_VERSION}
+release: 1 # bump only when re-packaging the same upstream version
+section: utils
+priority: optional
+maintainer: Ray Bao <raybao27@gmail.com>
+description: >-
+  CLI to back up files and directories to a dated, mirrored backup root,
+  with list, restore, and cleanup
+homepage: https://github.com/RampagerB/buk
+license: Apache-2.0
+
+# The binary comes from the static musl build, so the packages install on any
+# glibc version (old Ubuntu LTS, RHEL, ...).
+contents:
+  - src: staging/buk
+    dst: /usr/bin/buk
+    file_info:
+      mode: 0755
+  - src: staging/README.md
+    dst: /usr/share/doc/buk/README.md
+  - src: staging/LICENSE
+    dst: /usr/share/doc/buk/LICENSE

@@ -11,7 +11,7 @@ homepage = "https://github.com/RampagerB/buk"
 readme = "README.md"
 keywords = ["backup", "restore", "cli", "snapshot"]
 categories = ["command-line-utilities", "filesystem"]
-exclude = [".github/"]
+exclude = [".github/", "packaging/"]
 
 [dependencies]
 chrono = "0.4.45"

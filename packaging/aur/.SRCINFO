@@ -1,0 +1,17 @@
+pkgbase = buk-bin
+pkgdesc = Back up files and directories to a dated, mirrored backup root
+pkgver = 0.1.0
+pkgrel = 1
+url = https://github.com/RampagerB/buk
+arch = x86_64
+arch = aarch64
+license = Apache-2.0
+depends = glibc
+provides = buk
+conflicts = buk
+source_x86_64 = https://github.com/RampagerB/buk/releases/download/v0.1.0/buk-0.1.0-x86_64-unknown-linux-gnu.tar.gz
+sha256sums_x86_64 = cdabf56a751f821d1b84520dbff10898b073de464210941f4c957d466da8d1ba
+source_aarch64 = https://github.com/RampagerB/buk/releases/download/v0.1.0/buk-0.1.0-aarch64-unknown-linux-gnu.tar.gz
+sha256sums_aarch64 = 4a27b0fc2bfe4687403221fec3b3f34be7218806ca1c836613595bbaf1dc5d9c
+
+pkgname = buk-bin

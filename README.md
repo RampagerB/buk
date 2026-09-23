@@ -15,6 +15,48 @@ just `$BUK_PATH` and a few flags.
 
 Rust ≥ 1.85 (edition 2024).
 
+## Install
+
+**crates.io** (any platform, needs a Rust toolchain):
+
+```sh
+cargo install buk
+```
+
+**Prebuilt binaries** — every [release](https://github.com/RampagerB/buk/releases)
+ships `buk-<version>-<target>.tar.gz` for Linux (x86_64 glibc, x86_64 musl
+static, aarch64), macOS (Apple Silicon and Intel) and Windows (`.zip`), each
+containing the binary, `LICENSE` and `README.md`:
+
+```sh
+tar -xzf buk-0.1.0-x86_64-unknown-linux-musl.tar.gz
+sudo install buk-0.1.0-x86_64-unknown-linux-musl/buk /usr/local/bin/buk
+```
+
+**Homebrew:**
+
+```sh
+brew tap RampagerB/buk && brew install buk
+```
+
+**Arch Linux (AUR):**
+
+```sh
+yay -S buk-bin
+```
+
+**Debian/Ubuntu** (`.deb` attached to each release, static — no dependencies):
+
+```sh
+sudo apt install ./buk_0.1.0_amd64.deb
+```
+
+**Fedora/RHEL** (`.rpm` attached to each release):
+
+```sh
+sudo dnf install ./buk-0.1.0-1.x86_64.rpm
+```
+
 ## Build
 
 ```sh

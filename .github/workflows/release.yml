@@ -128,9 +128,61 @@ jobs:
             buk-*.zip
           if-no-files-found: error
 
+  packages:
+    name: Linux packages (deb, rpm)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download static musl build
+        uses: actions/download-artifact@v4
+        with:
+          name: buk-x86_64-unknown-linux-musl
+          path: .
+
+      - name: Install nfpm
+        env:
+          NFPM_VERSION: "2.47.0"
+          NFPM_SHA256: "0660ca602b2d2d2ae4781a06c692b3eeb9d437ffea05b831d76e41f4a3188783"
+        run: |
+          curl -sSfL -o nfpm.tar.gz \
+            "https://github.com/goreleaser/nfpm/releases/download/v${NFPM_VERSION}/nfpm_${NFPM_VERSION}_Linux_x86_64.tar.gz"
+          echo "${NFPM_SHA256}  nfpm.tar.gz" | sha256sum -c -
+          tar -xzf nfpm.tar.gz nfpm
+          sudo install -m755 nfpm /usr/local/bin/nfpm
+          nfpm --version
+
+      - name: Stage files
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          mkdir -p staging
+          tar -xzf "buk-${version}-x86_64-unknown-linux-musl.tar.gz"
+          install -m755 "buk-${version}-x86_64-unknown-linux-musl/buk" staging/buk
+          cp LICENSE README.md staging/
+
+      - name: Build .deb and .rpm
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          export BUK_VERSION="$version"
+          nfpm package --config packaging/nfpm.yaml --packager deb \
+            --target "buk_${version}_amd64.deb"
+          nfpm package --config packaging/nfpm.yaml --packager rpm \
+            --target "buk-${version}-1.x86_64.rpm"
+          ls -l buk_*.deb buk-*.rpm
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: buk-linux-packages
+          path: |
+            buk_*.deb
+            buk-*.rpm
+          if-no-files-found: error
+
   publish:
     name: Publish GitHub release
-    needs: build
+    needs: [build, packages]
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
@@ -143,7 +195,7 @@ jobs:
         working-directory: dist
         run: |
           shopt -s nullglob
-          files=(buk-*.tar.gz buk-*.zip)
+          files=(buk-*.tar.gz buk-*.zip buk_*.deb buk-*.rpm)
           if [ "${#files[@]}" -eq 0 ]; then
             echo "No release archives found" >&2
             exit 1
