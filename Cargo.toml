@@ -2,7 +2,16 @@
 name = "buk"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.85"
+authors = ["Ray Bao <raybao27@gmail.com>"]
+description = "CLI to back up files and directories to a dated, mirrored backup root, with list, restore, and cleanup"
 license = "Apache-2.0"
+repository = "https://github.com/RampagerB/buk"
+homepage = "https://github.com/RampagerB/buk"
+readme = "README.md"
+keywords = ["backup", "restore", "cli", "snapshot"]
+categories = ["command-line-utilities", "filesystem"]
+exclude = [".github/"]
 
 [dependencies]
 chrono = "0.4.45"
